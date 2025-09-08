@@ -12,6 +12,10 @@ TagManager:
   - LaserPool
   - EnemyTrigger
   - PlayerTrigger
+  - PowerUpHeal
+  - PowerUpBoost
+  - PowerUpSpread
+  - PowerUpShield
   layers:
   - Default
   - TransparentFX
