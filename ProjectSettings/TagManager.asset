@@ -5,7 +5,13 @@ TagManager:
   serializedVersion: 3
   tags:
   - PlayerLaser
-  - PlayerLaserPool
+  - Enemy
+  - EnemyPool
+  - EnemySpawner
+  - EnemyLaser
+  - LaserPool
+  - EnemyTrigger
+  - PlayerTrigger
   layers:
   - Default
   - TransparentFX
@@ -13,13 +19,13 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - EnemyBullet
+  - PlayerBullet
+  - HunterEnemy
+  - RangedEnemy
+  - Player
+  - PlayerTrigger
+  - EnemyTrigger
   - 
   - 
   - 

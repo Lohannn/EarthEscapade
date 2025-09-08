@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerLaser : MonoBehaviour
+public class EnemyLaser : MonoBehaviour
 {
     [SerializeField] private float speed;
     private int damage;
@@ -13,14 +13,14 @@ public class PlayerLaser : MonoBehaviour
             gameObject.SetActive(false);
         }
 
-        transform.Translate(Vector2.up * speed * Time.deltaTime);
+        transform.Translate(Vector2.down * speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("EnemyTrigger"))
+        if (collision.gameObject.CompareTag("PlayerTrigger"))
         {
-            collision.gameObject.GetComponentInParent<EnemyBehaviour>().TakeDamage(damage);
+            collision.gameObject.GetComponentInParent<Player>().OnDamage(damage);
         }
         gameObject.SetActive(false);
     }
