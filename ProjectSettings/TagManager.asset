@@ -5,7 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - PlayerLaser
-  - Enemy
+  - EnemyHunter
   - EnemyPool
   - EnemySpawner
   - EnemyLaser
@@ -16,6 +16,12 @@ TagManager:
   - PowerUpBoost
   - PowerUpSpread
   - PowerUpShield
+  - Shield
+  - ShieldPool
+  - EnemyRanged
+  - PowerUpPool
+  - Enemy
+  - DropManager
   layers:
   - Default
   - TransparentFX
@@ -30,8 +36,8 @@ TagManager:
   - Player
   - PlayerTrigger
   - EnemyTrigger
-  - 
-  - 
+  - PowerUp
+  - Shield
   - 
   - 
   - 

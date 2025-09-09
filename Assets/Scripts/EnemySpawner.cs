@@ -6,7 +6,7 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private float spawnInterval = 2f;
     
-    private readonly int maxHunters = 0;
+    private readonly int maxHunters = 1000000;
     private int currentHunters = 0;
 
     private readonly float[] hunterSpawnPositionsX = new float[]{2f, -4f, 4f, 0f, -2f};
@@ -20,8 +20,8 @@ public class EnemySpawner : MonoBehaviour
     {
         enemyPool = GameObject.FindGameObjectWithTag("EnemyPool").GetComponent<EnemyPoolManager>();
 
-        //StartCoroutine(SpawnHunterEnemies());
-        SpawnRangedEnemies();
+        StartCoroutine(SpawnHunterEnemies());
+        //SpawnRangedEnemies();
     }
 
     private void SpawnRangedEnemies()
@@ -43,6 +43,11 @@ public class EnemySpawner : MonoBehaviour
             enemyPool.GetHunterEnemy(spawnPosition);
             currentHunterSpawn++;
             currentHunters++;
+
+            if (currentHunterSpawn >= 5)
+            {
+                currentHunterSpawn = 0;
+            }
 
             StartCoroutine(SpawnHunterEnemies());
         }

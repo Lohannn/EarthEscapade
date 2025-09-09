@@ -2,30 +2,41 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-    [SerializeField] private int healValue = 2;
-    [SerializeField] private float boostSpeedMultiplier = 1.5f;
-    [SerializeField] private float boostReloadDivider = 0.5f;
-    [SerializeField] private float boostDurationTime = 5;
-    [SerializeField] private float spreadDurationTime = 5;
-    [SerializeField] private int shieldHealth = 10;
-    [SerializeField] private float shieldDurationTime = 5;
+    private int healValue;
+    private float boostSpeedMultiplier;
+    private float boostReloadDivider;
+    private float boostDurationTime;
+    private float spreadDurationTime;
+    private int shieldHealth;
+    private float shieldDurationTime;
+
+    private float speed;
+
+    private PowerUpManager powerUpManager;
 
     private void Start()
     {
-        //switch (gameObject.tag)
-        //{
-        //    case "PowerUpHeal":
-        //        break;
+        powerUpManager = GameObject.Find("PowerUpEditor").GetComponent<PowerUpManager>();
 
-        //    case "PowerUpBoost":
-        //        break;
+        healValue = powerUpManager.healValue;
+        boostSpeedMultiplier = powerUpManager.boostSpeedMultiplier;
+        boostReloadDivider = powerUpManager.boostReloadDivider;
+        boostDurationTime = powerUpManager.boostDurationTime;
+        spreadDurationTime = powerUpManager.spreadDurationTime;
+        shieldHealth = powerUpManager.shieldValue;
+        shieldDurationTime = powerUpManager.shieldDurationTime;
+        speed = powerUpManager.powerUpSpeed;
+    }
 
-        //    case "PowerUpSpread":
-        //        break;
+    private void Update()
+    {
+        transform.Translate(Vector2.down * speed * Time.deltaTime);
 
-        //    case "PowerUpShield":
-        //        break;
-        //}
+        if (transform.position.y >= 6 || transform.position.x >= 10 ||
+            transform.position.y <= -6 || transform.position.x <= -10)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public int GetHealValue()

@@ -9,13 +9,17 @@ public class HunterEnemy : MonoBehaviour
     private Transform playerPosition;
 
     private EnemyBehaviour eb;
+    private Collider2D col;
 
     private void Start()
     {
+        col = GetComponentInChildren<Collider2D>();
         eb = GetComponent<EnemyBehaviour>();
         eb.SetMaxHealth(maxHealth);
         eb.SetHealth();
         eb.SetBodyDamage(bodyDamage);
+
+        col.enabled = true;
     }
 
     void Awake()
@@ -28,16 +32,14 @@ public class HunterEnemy : MonoBehaviour
         LookAtPlayer();
     }
 
-    // Update is called once per frame
+    private void OnBecameVisible()
+    {
+        col.enabled = true;
+    }
+
     void Update()
     {
         transform.Translate(Vector2.down * speed * Time.deltaTime);
-
-        if (transform.position.y >= 10 || transform.position.x >= 14 ||
-            transform.position.y <= -10 || transform.position.x <= -14)
-        {
-            gameObject.SetActive(false);
-        }
     }
 
     private void LookAtPlayer()
