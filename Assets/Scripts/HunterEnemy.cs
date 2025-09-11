@@ -5,6 +5,7 @@ public class HunterEnemy : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private int maxHealth;
     [SerializeField] private int bodyDamage;
+    private bool canDropPowerUp = true;
 
     private Transform playerPosition;
 
@@ -18,6 +19,7 @@ public class HunterEnemy : MonoBehaviour
         eb.SetMaxHealth(maxHealth);
         eb.SetHealth();
         eb.SetBodyDamage(bodyDamage);
+        eb.SetCanDropPowerUp(canDropPowerUp);
 
         col.enabled = true;
     }
@@ -40,6 +42,11 @@ public class HunterEnemy : MonoBehaviour
     void Update()
     {
         transform.Translate(Vector2.down * speed * Time.deltaTime);
+    }
+
+    public void SetCanDropPowerUp(bool value)
+    {
+        canDropPowerUp = value;
     }
 
     private void LookAtPlayer()

@@ -128,9 +128,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 48302373}
+  - component: {fileID: 48302374}
   m_Layer: 0
   m_Name: DropManager
-  m_TagString: Untagged
+  m_TagString: DropManager
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -150,6 +151,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &48302374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48302372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00e620da6346e8445a2d4bcc94d2413a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUps:
+  - powerUp: {fileID: 6524273330121221056, guid: 80111b45bac67634dba3040de8c01a47, type: 3}
+    weight: 40
+  - powerUp: {fileID: 1116763007707578464, guid: c49437ccc5c9592449a2fc3459168dab, type: 3}
+    weight: 30
+  - powerUp: {fileID: 1860869005439350234, guid: 5888865320e269f46a2f589b6c0a8e90, type: 3}
+    weight: 20
+  - powerUp: {fileID: 1365568881465007405, guid: bd09c14b391d48f46abd3a5ff0b6702d, type: 3}
+    weight: 10
 --- !u!1 &53189559
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,6 +879,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2015608432}
+  - component: {fileID: 2015608433}
   m_Layer: 0
   m_Name: PowerUpPool
   m_TagString: PowerUpPool
@@ -879,6 +902,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2015608433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015608430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e6fd2f10ff0693469a79ee362c046a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healPrefab: {fileID: 6524273330121221056, guid: 80111b45bac67634dba3040de8c01a47, type: 3}
+  boostPrefab: {fileID: 1365568881465007405, guid: bd09c14b391d48f46abd3a5ff0b6702d, type: 3}
+  spreadPrefab: {fileID: 1860869005439350234, guid: 5888865320e269f46a2f589b6c0a8e90, type: 3}
+  shieldPrefab: {fileID: 1116763007707578464, guid: c49437ccc5c9592449a2fc3459168dab, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

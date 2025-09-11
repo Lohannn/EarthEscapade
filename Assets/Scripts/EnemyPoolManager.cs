@@ -1,11 +1,12 @@
+using System;
 using UnityEngine;
 
 public class EnemyPoolManager : MonoBehaviour
 {
     [SerializeField] private GameObject hunterEnemy;
     [SerializeField] private GameObject rangedEnemy;
-    private readonly GameObject[] hunterEnemyPool = new GameObject[5];
-    private readonly GameObject[] rangedEnemyPool = new GameObject[4];
+    private readonly GameObject[] hunterEnemyPool = new GameObject[10];
+    private readonly GameObject[] rangedEnemyPool = new GameObject[10];
 
     
     void Start()
@@ -28,6 +29,22 @@ public class EnemyPoolManager : MonoBehaviour
         return Instantiate(hunterEnemy);
     }
 
+    public GameObject GetHunterEnemy(Vector2 position, bool canDropPowerUp)
+    {
+        foreach (var enemy in hunterEnemyPool)
+        {
+            if (!enemy.activeInHierarchy)
+            {
+                enemy.transform.position = position;
+                enemy.GetComponent<HunterEnemy>().SetCanDropPowerUp(canDropPowerUp);
+                enemy.SetActive(true);
+                return enemy;
+            }
+        }
+
+        return Instantiate(hunterEnemy);
+    }
+
     private void InstantiateHunters()
     {
         for (int i = 0; i < hunterEnemyPool.Length; i++)
@@ -38,7 +55,7 @@ public class EnemyPoolManager : MonoBehaviour
         }
     }
 
-    public GameObject GetRangedEnemy(Vector2 position, int speedDirection)
+    public GameObject GetRangedEnemy(Vector2 position, int speedDirection, float height)
     {
         foreach (var enemy in rangedEnemyPool)
         {
@@ -46,6 +63,62 @@ public class EnemyPoolManager : MonoBehaviour
             {
                 enemy.transform.position = position;
                 enemy.GetComponent<RangedEnemy>().SetSpeedDirection(speedDirection);
+                enemy.GetComponent<RangedEnemy>().SetTargetHeight(height);
+                enemy.SetActive(true);
+                return enemy;
+            }
+        }
+
+        return Instantiate(rangedEnemy);
+    }
+
+    public GameObject GetRangedEnemy(Vector2 position, int speedDirection, float height, bool canDropPowerUp)
+    {
+        foreach (var enemy in rangedEnemyPool)
+        {
+            if (!enemy.activeInHierarchy)
+            {
+                enemy.transform.position = position;
+                enemy.GetComponent<RangedEnemy>().SetSpeedDirection(speedDirection);
+                enemy.GetComponent<RangedEnemy>().SetTargetHeight(height);
+                enemy.GetComponent<RangedEnemy>().SetCanDropPowerUp(canDropPowerUp);
+                enemy.SetActive(true);
+                return enemy;
+            }
+        }
+
+        return Instantiate(rangedEnemy);
+    }
+
+    public GameObject GetRangedEnemy(Vector2 position, int speedDirection, float height, Action<GameObject> onHitEvent)
+    {
+        foreach (var enemy in rangedEnemyPool)
+        {
+            if (!enemy.activeInHierarchy)
+            {
+                enemy.transform.position = position;
+                enemy.GetComponent<RangedEnemy>().SetSpeedDirection(speedDirection);
+                enemy.GetComponent<RangedEnemy>().SetTargetHeight(height);
+                enemy.GetComponent<RangedEnemy>().SetOnHitWallEvent(onHitEvent);
+                enemy.SetActive(true);
+                return enemy;
+            }
+        }
+
+        return Instantiate(rangedEnemy);
+    }
+
+    public GameObject GetRangedEnemy(Vector2 position, int speedDirection, float height, bool canDropPowerUp, Action<GameObject> onHitEvent)
+    {
+        foreach (var enemy in rangedEnemyPool)
+        {
+            if (!enemy.activeInHierarchy)
+            {
+                enemy.transform.position = position;
+                enemy.GetComponent<RangedEnemy>().SetSpeedDirection(speedDirection);
+                enemy.GetComponent<RangedEnemy>().SetTargetHeight(height);
+                enemy.GetComponent<RangedEnemy>().SetOnHitWallEvent(onHitEvent);
+                enemy.GetComponent<RangedEnemy>().SetCanDropPowerUp(canDropPowerUp);
                 enemy.SetActive(true);
                 return enemy;
             }

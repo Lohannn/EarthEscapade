@@ -1,55 +1,106 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private float spawnInterval = 2f;
-    
-    private readonly int maxHunters = 1000000;
-    private int currentHunters = 0;
+    [SerializeField] private bool enemyWave1Active;
+    private bool enemyWave1Completed;
+    [SerializeField] private bool enemyWave2Active;
+    [SerializeField] private bool enemyWave3Active;
 
-    private readonly float[] hunterSpawnPositionsX = new float[]{2f, -4f, 4f, 0f, -2f};
-    private int currentHunterSpawn = 0;
+    private readonly float[] hunterSpawnPositionsX = new float[] { 2f, -4f, 4f, 0f, -2f };
 
-    private readonly float[] rangedSpawnPositionsX = new float[] {-6f, -3f, 3f, 6f};
+    private GameObject[] enemiesInScreen;
 
     private EnemyPoolManager enemyPool;
+    private PowerUpPoolManager powerUpPool;
 
     private void Start()
     {
         enemyPool = GameObject.FindGameObjectWithTag("EnemyPool").GetComponent<EnemyPoolManager>();
-
-        StartCoroutine(SpawnHunterEnemies());
-        //SpawnRangedEnemies();
+        powerUpPool = GameObject.FindGameObjectWithTag("PowerUpPool").GetComponent<PowerUpPoolManager>();
     }
 
-    private void SpawnRangedEnemies()
+    private void Update()
     {
-        for (int i = 0; i < rangedSpawnPositionsX.Length; i++)
+        enemiesInScreen = GameObject.FindGameObjectsWithTag("Enemy");
+
+        if (enemyWave1Active)
         {
-            Vector2 position = new(rangedSpawnPositionsX[i], 7);
-            int speedDirection = (i % 2 == 0) ? -1 : 1;
-            enemyPool.GetRangedEnemy(position, speedDirection);
+            Stage1Wave1();
+        } 
+        else if (enemyWave2Active)
+        {
+            enemyWave2Active = false;
+            
+
+
+            enemyWave3Active = true;
+
+        }
+        else if (enemyWave3Active)
+        {
+            enemyWave3Active = false;
+
         }
     }
 
-    private IEnumerator SpawnHunterEnemies()
+    private void HandleEnemyHitWall(GameObject enemyThatHitTheWall, Array enemyGroups)
     {
-        yield return new WaitForSeconds(spawnInterval);
-        if (currentHunters < maxHunters)
+        foreach (Array group in enemyGroups)
         {
+            foreach (GameObject enemy in group)
+            {
+                if (enemy.gameObject == enemyThatHitTheWall)
+                {
+                    ChangeRangedsDirection(group);
+                    return;
+                }
+            }
+        }
+    }
+
+    private void ChangeRangedsDirection(Array enemyGroup)
+    {
+        foreach (GameObject ranged in enemyGroup)
+        {
+            ranged.GetComponent<RangedEnemy>().ChangeDirection();
+        }
+    }
+
+    private IEnumerator SpawnHunterEnemies(float spawnInterval, int maxHunters)
+    {
+        int currentHunterSpawn = 0;
+
+        for (int currentHunters = 0; currentHunters < maxHunters; currentHunters++)
+        {
+            yield return new WaitForSeconds(spawnInterval);
             Vector2 spawnPosition = new(hunterSpawnPositionsX[currentHunterSpawn], 7);
             enemyPool.GetHunterEnemy(spawnPosition);
             currentHunterSpawn++;
-            currentHunters++;
 
             if (currentHunterSpawn >= 5)
             {
                 currentHunterSpawn = 0;
             }
 
-            StartCoroutine(SpawnHunterEnemies());
+            if (currentHunters >= 5)
+            {
+                enemyWave1Completed = true;
+            }
+        }
+    }
+
+    private void Stage1Wave1()
+    {
+        enemyWave1Active = false;
+        StartCoroutine(SpawnHunterEnemies(2.0f, 5));
+
+        if (enemiesInScreen.Length <= 0 && enemyWave1Completed)
+        {
+            enemyWave2Active = true;
         }
     }
 }

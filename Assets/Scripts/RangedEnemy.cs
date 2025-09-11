@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
@@ -8,6 +9,9 @@ public class RangedEnemy : MonoBehaviour
     [SerializeField] private int maxHealth;
     [SerializeField] private int bodyDamage;
     [SerializeField] private int damage;
+    [SerializeField] private float targetHeight;
+    private event Action<GameObject> OnHitWall; 
+    private bool canDropPowerUp;
 
     [SerializeField] private Transform weapon;
     [SerializeField] private float reloadTime;
@@ -24,7 +28,6 @@ public class RangedEnemy : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
         col = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
         aSource = GetComponent<AudioSource>();
@@ -34,6 +37,7 @@ public class RangedEnemy : MonoBehaviour
         eb.SetMaxHealth(maxHealth);
         eb.SetHealth();
         eb.SetBodyDamage(bodyDamage);
+        eb.SetCanDropPowerUp(canDropPowerUp);
     }
 
     // Update is called once per frame
@@ -41,7 +45,7 @@ public class RangedEnemy : MonoBehaviour
     {
         if (!isAttacking)
         {
-            transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, 4), 3 * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, targetHeight), 3 * Time.deltaTime);
 
             if (transform.position.y == 4)
             {
@@ -59,23 +63,48 @@ public class RangedEnemy : MonoBehaviour
 
             if (transform.position.x <= -8 || transform.position.x >= 8)
             {
-                speed = -speed;
+                OnHitWall?.Invoke(this.gameObject);
             }
 
-            //transform.Translate(Vector2.left * speed * Time.deltaTime);
-            rb.linearVelocity = Vector2.left * speed;
-
-            transform.position = new Vector3(
-                Mathf.Clamp(transform.position.x, -8f, 8f),
-                transform.position.y,
-                transform.position.z
-            );
+            OnMove();
         }
+    }
+
+    private void OnMove()
+    {
+        //transform.Translate(Vector2.left * speed * Time.deltaTime);
+        rb.linearVelocity = Vector2.left * speed;
+
+        transform.position = new Vector3(
+            Mathf.Clamp(transform.position.x, -8f, 8f),
+            transform.position.y,
+            transform.position.z
+        );
+    }
+
+    public void SetOnHitWallEvent(Action<GameObject> action)
+    {
+        OnHitWall += action;
     }
 
     public void SetSpeedDirection(int multiplier)
     {
         speed *= multiplier;
+    }
+
+    public void SetTargetHeight(float height)
+    {
+        targetHeight = height;
+    }
+
+    public void SetCanDropPowerUp(bool value)
+    {
+        canDropPowerUp = value;
+    }
+
+    public void ChangeDirection()
+    {
+        speed = -speed;
     }
 
     private IEnumerator AttackCoroutine(float reload)
@@ -90,7 +119,7 @@ public class RangedEnemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (canChangeDirection && collision.gameObject.CompareTag("Enemy"))
+        if (canChangeDirection && collision.gameObject.CompareTag("EnemyRanged"))
         {
             speed = -speed;
             canChangeDirection = false;

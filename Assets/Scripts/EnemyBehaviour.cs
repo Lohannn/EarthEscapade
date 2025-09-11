@@ -7,6 +7,7 @@ public class EnemyBehaviour : MonoBehaviour
     private int bodyDamage;
 
     private bool hasDeltDamage = false;
+    private bool canDropPowerUp;
 
     private DropManager dropManager;
 
@@ -29,11 +30,20 @@ public class EnemyBehaviour : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
-            if (Random.Range(0, 100) > 75)
+            if (canDropPowerUp)
             {
-                dropManager.DropRandomPowerUp(transform.position);
+                DropPowerUp();
             }
+            
             Deactivate();
+        }
+    }
+
+    private void DropPowerUp()
+    {
+        if (Random.Range(0, 100) > 75)
+        {
+            dropManager.DropRandomPowerUp(transform.position);
         }
     }
 
@@ -65,6 +75,11 @@ public class EnemyBehaviour : MonoBehaviour
     public void SetHasDeltDamage(bool value)
     {
         hasDeltDamage = value;
+    }
+
+    public void SetCanDropPowerUp(bool value)
+    {
+        canDropPowerUp = value;
     }
 
     private void Deactivate()
