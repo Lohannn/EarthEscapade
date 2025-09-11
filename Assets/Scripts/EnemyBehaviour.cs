@@ -21,8 +21,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     void Update()
     {
-        if (transform.position.y >= 10 || transform.position.x >= 14 ||
-            transform.position.y <= -10 || transform.position.x <= -14)
+        if (transform.position.y >= 15 || transform.position.x >= 14 ||
+            transform.position.y <= -15 || transform.position.x <= -14)
         {
             Deactivate();
         }

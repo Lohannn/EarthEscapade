@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private bool enemyWave1Active;
+    [SerializeField] private bool enemyWave1Active = true;
     private bool enemyWave2Starting;
     [SerializeField] private bool enemyWave2Active;
     private bool enemyWave3Starting;
     [SerializeField] private bool enemyWave3Active;
+    private bool stageFinished;
+
+    private bool isShieldHandled = false;
 
     private readonly float[] hunterSpawnPositionsX = new float[] { 2f, -4f, 4f, 0f, -2f };
 
     private EnemyPoolManager enemyPool;
-    private PowerUpPoolManager powerUpPool;
 
     private void Start()
     {
         enemyPool = GameObject.FindGameObjectWithTag("EnemyPool").GetComponent<EnemyPoolManager>();
-        powerUpPool = GameObject.FindGameObjectWithTag("PowerUpPool").GetComponent<PowerUpPoolManager>();
     }
 
     private void Update()
@@ -33,35 +34,9 @@ public class EnemySpawner : MonoBehaviour
         }
         else if (enemyWave3Active)
         {
-            enemyWave3Active = false;
-
+            Stage1Wave3();
         }
-
         WavePassCheck();
-        ShieldDropCheck();
-    }
-
-    private void HandleEnemyHitWall(GameObject enemyThatHitTheWall, Array enemyGroups)
-    {
-        foreach (Array group in enemyGroups)
-        {
-            foreach (GameObject enemy in group)
-            {
-                if (enemy.gameObject == enemyThatHitTheWall)
-                {
-                    ChangeRangedsDirection(group);
-                    return;
-                }
-            }
-        }
-    }
-
-    private void ChangeRangedsDirection(Array enemyGroup)
-    {
-        foreach (GameObject ranged in enemyGroup)
-        {
-            ranged.GetComponent<RangedEnemy>().ChangeDirection();
-        }
     }
 
     private IEnumerator SpawnHunterEnemiesWave1(float spawnInterval, int maxHunters)
@@ -87,6 +62,25 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    private IEnumerator SpawnHunterEnemiesWave3(float spawnInterval)
+    {
+        int currentHunterSpawn = 0;
+
+        while (HasRangedEnemiesOnScreen())
+        {
+            yield return new WaitForSeconds(spawnInterval);
+            Vector2 spawnPosition = new(hunterSpawnPositionsX[currentHunterSpawn], 7);
+            enemyPool.GetHunterEnemy(spawnPosition, true);
+            currentHunterSpawn++;
+
+            if (currentHunterSpawn >= 5)
+            {
+                currentHunterSpawn = 0;
+            }
+        }
+    }
+
+
     private void SpawnRangedEnemiesWave2(float[] spawnPositions)
     {
         for (int i = 0; i < spawnPositions.Length; i++)
@@ -94,6 +88,21 @@ public class EnemySpawner : MonoBehaviour
             Vector2 position = new(spawnPositions[i], 7);
             int speedDirection = (i % 2 == 0) ? -1 : 1;
             enemyPool.GetRangedEnemy(position, speedDirection, 4);
+        }
+    }
+
+    private void SpawnRangedEnemiesWave3(float[] spawnPositions)
+    {
+        float targetHeight = 0;
+        float spawnHeight = 9.5f;
+
+        for (int i = 0; i < spawnPositions.Length; i++)
+        {
+            Vector2 position = new(0, spawnHeight);
+            int speedDirection = (i % 2 == 0) ? -1 : 1;
+            enemyPool.GetRangedEnemy(position, speedDirection, targetHeight, true);
+            targetHeight += 1.5f;
+            spawnHeight += 1.5f;
         }
     }
 
@@ -108,6 +117,18 @@ public class EnemySpawner : MonoBehaviour
         enemyWave2Active = false;
         float[] rangedSpawnPositions = new float[] { -6f, -3f, 3f, 6f };
         SpawnRangedEnemiesWave2(rangedSpawnPositions);
+        StartCoroutine(ShieldDropCheck());
+    }
+
+    private void Stage1Wave3()
+    {
+        enemyWave3Active = false;
+        float[] rangedSpawnPositions = new float[] { 0.0f, 1.5f, 3.0f, 4.5f };
+
+        SpawnRangedEnemiesWave3(rangedSpawnPositions);
+        StartCoroutine(SpawnHunterEnemiesWave3(1.5f));
+
+        StartCoroutine(Wave3BeatCheck());
     }
 
     private bool HasPowerUpsOnScreen()
@@ -118,6 +139,11 @@ public class EnemySpawner : MonoBehaviour
     private bool HasEnemiesOnScreen()
     {
         return GameObject.FindGameObjectsWithTag("EnemyTrigger").Length > 0;
+    }
+
+    private bool HasRangedEnemiesOnScreen()
+    {
+        return GameObject.FindGameObjectsWithTag("EnemyRanged").Length > 0;
     }
 
     private IEnumerator ToWave2Cooldown()
@@ -144,16 +170,46 @@ public class EnemySpawner : MonoBehaviour
             enemyWave3Starting = false;
             StartCoroutine(ToWave3Cooldown());
         }
+        else if (!HasRangedEnemiesOnScreen() && stageFinished)
+        {
+            stageFinished = false;
+            print("Fase 1 concluída");
+        }
     }
 
-    private void ShieldDropCheck()
+    private IEnumerator ShieldDropCheck()
     {
-        if (GameObject.FindGameObjectsWithTag("EnemyRanged").Length == 1 && !GameObject.FindGameObjectsWithTag("EnemyRanged")[0].GetComponent<EnemyBehaviour>().GetIsTutorialEnemy())
+        if (!isShieldHandled)
         {
-            EnemyBehaviour tutorialEnemy = GameObject.FindGameObjectWithTag("EnemyRanged").GetComponent<EnemyBehaviour>();
-            tutorialEnemy.SetIsTutorialEnemy();
-            tutorialEnemy.SetCanDropPowerUp(true);
+            while (GameObject.FindGameObjectsWithTag("EnemyRanged").Length > 1)
+            {
+                yield return null;
+            }
+
+            if (GameObject.FindGameObjectsWithTag("EnemyRanged").Length == 1 && !GameObject.FindGameObjectsWithTag("EnemyRanged")[0].GetComponent<EnemyBehaviour>().GetIsTutorialEnemy())
+            {
+                EnemyBehaviour tutorialEnemy = GameObject.FindGameObjectWithTag("EnemyRanged").GetComponent<EnemyBehaviour>();
+                tutorialEnemy.SetIsTutorialEnemy();
+                tutorialEnemy.SetCanDropPowerUp(true);
+            }
+
+            while (HasPowerUpsOnScreen() || HasEnemiesOnScreen())
+            {
+                yield return null;
+            }
+
             enemyWave3Starting = true;
+            isShieldHandled = true;
         }
+    }
+
+    private IEnumerator Wave3BeatCheck()
+    {
+        while (HasPowerUpsOnScreen() || HasEnemiesOnScreen())
+        {
+            yield return null;
+        }
+
+        stageFinished = true;
     }
 }

@@ -62,8 +62,7 @@ public class EnemyPoolManager : MonoBehaviour
             if (!enemy.activeInHierarchy)
             {
                 enemy.transform.position = position;
-                enemy.GetComponent<RangedEnemy>().SetSpeedDirection(speedDirection);
-                enemy.GetComponent<RangedEnemy>().SetTargetHeight(height);
+                enemy.GetComponent<RangedEnemy>().Initialize(height, speedDirection);
                 enemy.SetActive(true);
                 return enemy;
             }
@@ -79,46 +78,7 @@ public class EnemyPoolManager : MonoBehaviour
             if (!enemy.activeInHierarchy)
             {
                 enemy.transform.position = position;
-                enemy.GetComponent<RangedEnemy>().SetSpeedDirection(speedDirection);
-                enemy.GetComponent<RangedEnemy>().SetTargetHeight(height);
-                enemy.GetComponent<RangedEnemy>().SetCanDropPowerUp(canDropPowerUp);
-                enemy.SetActive(true);
-                return enemy;
-            }
-        }
-
-        return Instantiate(rangedEnemy);
-    }
-
-    public GameObject GetRangedEnemy(Vector2 position, int speedDirection, float height, Action<GameObject> onHitEvent)
-    {
-        foreach (var enemy in rangedEnemyPool)
-        {
-            if (!enemy.activeInHierarchy)
-            {
-                enemy.transform.position = position;
-                enemy.GetComponent<RangedEnemy>().SetSpeedDirection(speedDirection);
-                enemy.GetComponent<RangedEnemy>().SetTargetHeight(height);
-                enemy.GetComponent<RangedEnemy>().SetOnHitWallEvent(onHitEvent);
-                enemy.SetActive(true);
-                return enemy;
-            }
-        }
-
-        return Instantiate(rangedEnemy);
-    }
-
-    public GameObject GetRangedEnemy(Vector2 position, int speedDirection, float height, bool canDropPowerUp, Action<GameObject> onHitEvent)
-    {
-        foreach (var enemy in rangedEnemyPool)
-        {
-            if (!enemy.activeInHierarchy)
-            {
-                enemy.transform.position = position;
-                enemy.GetComponent<RangedEnemy>().SetSpeedDirection(speedDirection);
-                enemy.GetComponent<RangedEnemy>().SetTargetHeight(height);
-                enemy.GetComponent<RangedEnemy>().SetOnHitWallEvent(onHitEvent);
-                enemy.GetComponent<RangedEnemy>().SetCanDropPowerUp(canDropPowerUp);
+                enemy.GetComponent<RangedEnemy>().Initialize(height, speedDirection, canDropPowerUp);
                 enemy.SetActive(true);
                 return enemy;
             }
