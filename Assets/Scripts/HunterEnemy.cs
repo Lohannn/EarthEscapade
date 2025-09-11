@@ -5,7 +5,7 @@ public class HunterEnemy : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private int maxHealth;
     [SerializeField] private int bodyDamage;
-    private bool canDropPowerUp = true;
+    private bool canDropPowerUp = false;
 
     private Transform playerPosition;
 

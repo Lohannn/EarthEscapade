@@ -24,9 +24,7 @@ public class PlayerLaser : MonoBehaviour
         {
             collision.gameObject.GetComponentInParent<EnemyBehaviour>().TakeDamage(damage);
             gameObject.SetActive(false);
-        }
-
-        if (collision.gameObject.CompareTag("Shield") && !collision.transform.parent.gameObject.CompareTag("Player"))
+        } else if (collision.gameObject.CompareTag("Shield") && !collision.transform.parent.gameObject.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<Shield>().TakeDamage(damage);
             gameObject.SetActive(false);

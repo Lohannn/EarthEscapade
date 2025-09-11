@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1767348700126668731}
   m_Layer: 8
   m_Name: HunterEnemyPrefab
-  m_TagString: Enemy
+  m_TagString: EnemyHunter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

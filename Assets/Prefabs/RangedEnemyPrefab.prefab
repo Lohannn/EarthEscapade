@@ -173,6 +173,7 @@ MonoBehaviour:
   maxHealth: 1
   bodyDamage: 3
   damage: 1
+  targetHeight: 0
   weapon: {fileID: 1259548124542999023}
   reloadTime: 0.3
 --- !u!82 &2542794357258527686
@@ -354,7 +355,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6990821174937220037}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}

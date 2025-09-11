@@ -7,13 +7,16 @@ public class EnemyBehaviour : MonoBehaviour
     private int bodyDamage;
 
     private bool hasDeltDamage = false;
-    private bool canDropPowerUp;
+    private bool canDropPowerUp = false;
+    private bool isTutorialEnemy = false;
 
     private DropManager dropManager;
+    private PowerUpPoolManager powerUpPool;
 
     private void Start()
     {
         dropManager = GameObject.FindGameObjectWithTag("DropManager").GetComponent<DropManager>();
+        powerUpPool = GameObject.FindGameObjectWithTag("PowerUpPool").GetComponent<PowerUpPoolManager>();
     }
 
     void Update()
@@ -30,11 +33,15 @@ public class EnemyBehaviour : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
-            if (canDropPowerUp)
+            if (canDropPowerUp && isTutorialEnemy)
+            {
+                powerUpPool.GetPowerUp("SHIELD", transform.position);
+            }
+            else if (canDropPowerUp)
             {
                 DropPowerUp();
             }
-            
+
             Deactivate();
         }
     }
@@ -80,6 +87,16 @@ public class EnemyBehaviour : MonoBehaviour
     public void SetCanDropPowerUp(bool value)
     {
         canDropPowerUp = value;
+    }
+
+    public void SetIsTutorialEnemy()
+    {
+        isTutorialEnemy = true;
+    }
+
+    public bool GetIsTutorialEnemy()
+    {
+        return isTutorialEnemy;
     }
 
     private void Deactivate()

@@ -11,7 +11,7 @@ public class RangedEnemy : MonoBehaviour
     [SerializeField] private int damage;
     [SerializeField] private float targetHeight;
     private event Action<GameObject> OnHitWall; 
-    private bool canDropPowerUp;
+    private bool canDropPowerUp = false;
 
     [SerializeField] private Transform weapon;
     [SerializeField] private float reloadTime;
@@ -20,6 +20,7 @@ public class RangedEnemy : MonoBehaviour
     private bool canChangeDirection = true;
 
     private Collider2D col;
+    private Collider2D trig;
     private AudioSource aSource;
     private EnemyBehaviour eb;
     private Rigidbody2D rb;
@@ -29,6 +30,7 @@ public class RangedEnemy : MonoBehaviour
     void Start()
     {
         col = GetComponent<Collider2D>();
+        trig = transform.Find("RangedTrigger").GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
         aSource = GetComponent<AudioSource>();
         eb = GetComponent<EnemyBehaviour>();
@@ -51,6 +53,7 @@ public class RangedEnemy : MonoBehaviour
             {
                 isAttacking = true;
                 col.enabled = true;
+                trig.enabled = true;
                 StartCoroutine(AttackCoroutine(reloadTime));
             }
         }
@@ -63,7 +66,15 @@ public class RangedEnemy : MonoBehaviour
 
             if (transform.position.x <= -8 || transform.position.x >= 8)
             {
-                OnHitWall?.Invoke(this.gameObject);
+                if (OnHitWall != null)
+                {
+                    OnHitWall?.Invoke(this.gameObject);
+                }
+                else
+                {
+                    ChangeDirection();
+                }
+
             }
 
             OnMove();

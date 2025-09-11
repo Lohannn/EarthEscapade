@@ -57,6 +57,27 @@ public class PowerUpPoolManager : MonoBehaviour
         return null;
     }
 
+    public GameObject GetPowerUp(string POWERUP, Vector2 position)
+    {
+        if (POWERUP == "HEAL")
+        {
+            return GetFromPool(healPool, healPrefab, position);
+        }
+        else if (POWERUP == "BOOST")
+        {
+            return GetFromPool(boostPool, boostPrefab, position);
+        }
+        else if (POWERUP == "SPREAD")
+        {
+            return GetFromPool(spreadPool, spreadPrefab, position);
+        }
+        else if (POWERUP == "SHIELD")
+        {
+            return GetFromPool(shieldPool, shieldPrefab, position);
+        }
+        return null;
+    }
+
     private GameObject GetFromPool(GameObject[] pool, GameObject prefab, Vector2 position)
     {
         foreach (var item in pool)

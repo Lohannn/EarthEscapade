@@ -20,8 +20,8 @@ TagManager:
   - ShieldPool
   - EnemyRanged
   - PowerUpPool
-  - Enemy
   - DropManager
+  - PowerUp
   layers:
   - Default
   - TransparentFX
