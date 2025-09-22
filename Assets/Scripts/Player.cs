@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, IInvincible
 {
@@ -26,9 +26,8 @@ public class Player : MonoBehaviour, IInvincible
     private float objectHeight;
 
     private bool onShootCooldown;
-    [SerializeField] private bool onSpreadShot;
+    private bool onSpreadShot;
     private bool isInvincible;
-    private bool isShielded;
 
     private Coroutine currentPowerUpCoroutine;
 
@@ -68,12 +67,13 @@ public class Player : MonoBehaviour, IInvincible
         if (health <= 0)
         {
             sr.color = Color.black;
-            Time.timeScale = 0;
+            StartCoroutine(OnDeath());
             return;
         }
 
         PlayerInputs();
-        OnShield();
+
+        aSource.volume = GameManager.Instance.sfxVolume;
     }
 
     private void LateUpdate()
@@ -110,7 +110,7 @@ public class Player : MonoBehaviour, IInvincible
             laserPool.GetPlayerLaser(damage, weapon.position, Quaternion.identity);
         }
 
-        //aSource.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
+        aSource.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
         aSource.Play();
         StartCoroutine(ShootCooldown(currentReloadTime));
     }
@@ -167,7 +167,7 @@ public class Player : MonoBehaviour, IInvincible
         }
     }
 
-    public bool CheckIfShielded()
+    public bool IsShielded()
     {
         foreach (Transform child in transform)
         {
@@ -178,18 +178,6 @@ public class Player : MonoBehaviour, IInvincible
         }
 
         return false;
-    }
-
-    private void OnShield()
-    {
-        if (CheckIfShielded())
-        {
-            isShielded = true;
-        }
-        else
-        {
-            isShielded = false;
-        }
     }
 
     private void LimitMovement()
@@ -225,6 +213,12 @@ public class Player : MonoBehaviour, IInvincible
         currentReloadTime = baseReloadTime;
 
         currentPowerUpCoroutine = null;
+    }
+
+    private IEnumerator OnDeath()
+    {
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene("StartScene");
     }
 
     private void TurnOffBoosters()
@@ -285,7 +279,7 @@ public class Player : MonoBehaviour, IInvincible
                 break;
 
             case "PowerUpShield":
-                if (!isShielded)
+                if (!IsShielded())
                 {
                     int shieldHealth = collision.gameObject.GetComponent<PowerUp>().GetShieldHealth();
                     float shieldDurationTime = collision.gameObject.GetComponent<PowerUp>().GetShieldDurationTime();

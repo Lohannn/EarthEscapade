@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4884443935584289356, guid: 95138b81cde0f5b4683562fe808fde94, type: 3}
+  m_Sprite: {fileID: -171514938797211457, guid: 4c741f2f6cc3fb54295fc2aa910dcfeb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -169,13 +169,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afd18d527f6326845b1403fafc022972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  maxHealth: 1
+  speed: 3
+  maxHealth: 5
   bodyDamage: 3
-  damage: 1
+  damage: 2
   targetHeight: 0
   weapon: {fileID: 1259548124542999023}
-  reloadTime: 0.3
+  reloadTime: 0.5
 --- !u!82 &2542794357258527686
 AudioSource:
   m_ObjectHideFlags: 0

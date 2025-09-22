@@ -18,16 +18,18 @@ public class PlayerLaser : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //print(!collision.transform.parent.gameObject.CompareTag("Player"));
-
         if (collision.gameObject.CompareTag("EnemyTrigger"))
         {
             collision.gameObject.GetComponentInParent<EnemyBehaviour>().TakeDamage(damage);
             gameObject.SetActive(false);
-        } else if (collision.gameObject.CompareTag("Shield") && !collision.transform.parent.gameObject.CompareTag("Player"))
+        } 
+        else if (collision.gameObject.CompareTag("Shield") && !collision.transform.parent.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<Shield>().TakeDamage(damage);
-            gameObject.SetActive(false);
+            if (collision.gameObject != null)
+            {
+                collision.gameObject.GetComponent<Shield>().TakeDamage(damage);
+                gameObject.SetActive(false);
+            }
         }
     }
 

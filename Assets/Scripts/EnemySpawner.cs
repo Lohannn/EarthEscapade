@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class EnemySpawner : MonoBehaviour
         {
             yield return new WaitForSeconds(spawnInterval);
             Vector2 spawnPosition = new(hunterSpawnPositionsX[currentHunterSpawn], 7);
-            enemyPool.GetHunterEnemy(spawnPosition);
+            enemyPool.GetHunterEnemy(spawnPosition, true);
             currentHunterSpawn++;
 
             if (currentHunterSpawn >= 5)
@@ -87,7 +88,7 @@ public class EnemySpawner : MonoBehaviour
         {
             Vector2 position = new(spawnPositions[i], 7);
             int speedDirection = (i % 2 == 0) ? -1 : 1;
-            enemyPool.GetRangedEnemy(position, speedDirection, 4);
+            enemyPool.GetRangedEnemy(position, speedDirection, 4, true);
         }
     }
 
@@ -173,7 +174,7 @@ public class EnemySpawner : MonoBehaviour
         else if (!HasRangedEnemiesOnScreen() && stageFinished)
         {
             stageFinished = false;
-            print("Fase 1 concluída");
+            SceneManager.LoadScene("StartScene");
         }
     }
 
