@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3f68b12437bfb284d871ed408f072f7a
+guid: 03c15d7282f405e4a8a0b390ebd25764
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7642083970027871608
-    second: Cenario01 1_0
+      213: 7079211753739580629
+    second: sliderDot_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 36
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Cenario01 1_0
+      name: sliderDot_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 288
-        height: 288
+        x: 135
+        y: 145
+        width: 30
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 88228c66e1dd1f590800000000000000
-      internalID: -7642083970027871608
+      spriteID: 5d4fa6f25996e3260800000000000000
+      internalID: 7079211753739580629
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Cenario01 1_0: -7642083970027871608
+      sliderDot_0: 7079211753739580629
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

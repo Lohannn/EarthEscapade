@@ -23,6 +23,6 @@ public class MainMusicManager : MonoBehaviour
 
     private void Update()
     {
-        musicSource.volume = GameManager.Instance.musicVolume;
+        musicSource.volume = GameManager.musicVolume;
     }
 }

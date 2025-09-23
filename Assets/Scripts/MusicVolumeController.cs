@@ -9,13 +9,13 @@ public class MusicVolumeController : MonoBehaviour
     {
         if (sliderMusic != null)
         {
-            sliderMusic.value = GameManager.Instance.musicVolume;
+            sliderMusic.value = GameManager.musicVolume;
             sliderMusic.onValueChanged.AddListener(AdjustVolume);
         }
     }
 
     public void AdjustVolume(float value)
     {
-        GameManager.Instance.musicVolume = value;
+        GameManager.musicVolume = value;
     }
 }

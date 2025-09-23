@@ -24,7 +24,7 @@ public class PersistentBrightnessManager : MonoBehaviour
 
     private void Start()
     {
-        brightness = GameManager.Instance.brightness;
+        brightness = GameManager.brightness;
         ApplyBrightness(brightness);
     }
 
@@ -34,6 +34,6 @@ public class PersistentBrightnessManager : MonoBehaviour
         color.a = opacity;
         panelBrightness.color = color;
 
-        GameManager.Instance.brightness = opacity;
+        GameManager.brightness = opacity;
     }
 }

@@ -9,7 +9,7 @@ public class BrightnessController : MonoBehaviour
     {
         if (sliderBrightness != null)
         {
-            sliderBrightness.value = 1f - GameManager.Instance.brightness;
+            sliderBrightness.value = 1f - GameManager.brightness;
 
             sliderBrightness.onValueChanged.AddListener(AdjustBrightness);
         }

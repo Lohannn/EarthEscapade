@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, IInvincible
 {
-    [SerializeField] private float baseSpeed;
+    private readonly float baseSpeed = PlayerDataManager.speed;
     private float currentSpeed;
-    [SerializeField] private int maxHealth;
+    private readonly int maxHealth = PlayerDataManager.maxHealth;
     private int health;
-    [SerializeField] private int damage;
+    private readonly int damage = PlayerDataManager.damage;
     [SerializeField] private float invincibilityTime;
     
 
@@ -33,7 +33,6 @@ public class Player : MonoBehaviour, IInvincible
 
     private SpriteRenderer sr;
     private AudioSource aSource;
-    private Collider2D col;
     private LaserPoolManager laserPool;
     private ShieldPoolManager shieldPool;
     private Collider2D playerTriggerCol;
@@ -41,7 +40,6 @@ public class Player : MonoBehaviour, IInvincible
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
-        col = GetComponent<Collider2D>();
         aSource = GetComponent<AudioSource>();
         GameObject playerTrigger = GameObject.FindWithTag("PlayerTrigger");
         playerTriggerCol = playerTrigger.GetComponent<Collider2D>();
@@ -72,8 +70,9 @@ public class Player : MonoBehaviour, IInvincible
         }
 
         PlayerInputs();
-
-        aSource.volume = GameManager.Instance.sfxVolume;
+        
+        aSource.volume = GameManager.sfxVolume;
+        
     }
 
     private void LateUpdate()
@@ -83,10 +82,9 @@ public class Player : MonoBehaviour, IInvincible
 
     private void PlayerInputs()
     {
-        OnMove();
-
-        if (Input.GetButton("Fire1") && !onShootCooldown)
+        if (GameObject.Find("SettingsCanvas") == null && GameObject.Find("PauseCanvas").GetComponent<Canvas>().enabled == false)
         {
+            OnMove();
             OnAttack();
         }
     }
@@ -99,20 +97,23 @@ public class Player : MonoBehaviour, IInvincible
 
     private void OnAttack()
     {
-        if (onSpreadShot)
+        if (Input.GetButton("Fire1") && !onShootCooldown)
         {
-            laserPool.GetPlayerLaser(damage, weapon.position, Quaternion.Euler(0, 0, -spreadShotAngle));
-            laserPool.GetPlayerLaser(damage, weapon.position, Quaternion.identity);
-            laserPool.GetPlayerLaser(damage, weapon.position, Quaternion.Euler(0, 0, spreadShotAngle));
-        }
-        else
-        {
-            laserPool.GetPlayerLaser(damage, weapon.position, Quaternion.identity);
-        }
+            if (onSpreadShot)
+            {
+                laserPool.GetPlayerLaser(damage, weapon.position, Quaternion.Euler(0, 0, -spreadShotAngle));
+                laserPool.GetPlayerLaser(damage, weapon.position, Quaternion.identity);
+                laserPool.GetPlayerLaser(damage, weapon.position, Quaternion.Euler(0, 0, spreadShotAngle));
+            }
+            else
+            {
+                laserPool.GetPlayerLaser(damage, weapon.position, Quaternion.identity);
+            }
 
-        aSource.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
-        aSource.Play();
-        StartCoroutine(ShootCooldown(currentReloadTime));
+            aSource.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
+            aSource.Play();
+            StartCoroutine(ShootCooldown(currentReloadTime));
+        }
     }
 
     public void SetInvincible(bool invincible)
@@ -138,6 +139,7 @@ public class Player : MonoBehaviour, IInvincible
         if (!isInvincible)
         {
             health -= damage;
+            GetComponent<LifeBarController>().UpdateLifeBar();
             StartCoroutine(Blink(invincibilityTime));
         }
     }
@@ -161,6 +163,7 @@ public class Player : MonoBehaviour, IInvincible
     public void OnHeal(int healValue)
     {
         health += healValue;
+        GetComponent<LifeBarController>().UpdateLifeBar();
         if (health > maxHealth)
         {
             health = maxHealth;
@@ -218,7 +221,7 @@ public class Player : MonoBehaviour, IInvincible
     private IEnumerator OnDeath()
     {
         yield return new WaitForSeconds(2);
-        SceneManager.LoadScene("StartScene");
+        SceneManager.LoadScene("StarterScene");
     }
 
     private void TurnOffBoosters()
@@ -231,6 +234,15 @@ public class Player : MonoBehaviour, IInvincible
             currentPowerUpCoroutine = null;
             onSpreadShot = false;
         }
+    }
+
+    public int GetMaxHealth()
+    {
+        return maxHealth;
+    }
+    public int GetHealth()
+    {
+        return health;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
