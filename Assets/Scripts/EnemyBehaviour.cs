@@ -42,6 +42,7 @@ public class EnemyBehaviour : MonoBehaviour
                 DropPowerUp();
             }
 
+            PlayerDataManager.coins += 1;
             Deactivate();
         }
     }

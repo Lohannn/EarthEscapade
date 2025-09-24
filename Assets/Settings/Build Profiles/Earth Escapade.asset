@@ -26,6 +26,20 @@ MonoBehaviour:
     m_path: Assets/Scenes/StarterScene.unity
   - m_enabled: 1
     m_path: Assets/Scenes/Configurations.unity
+  - m_enabled: 1
+    m_path: Assets/Scenes/LobbyScene.unity
+  - m_enabled: 1
+    m_path: Assets/Scenes/ShipStatusScene.unity
+  - m_enabled: 1
+    m_path: Assets/Scenes/ShopListScene.unity
+  - m_enabled: 1
+    m_path: Assets/Scenes/Stage1ShopScene.unity
+  - m_enabled: 1
+    m_path: Assets/Scenes/StageSelectionScene.unity
+  - m_enabled: 1
+    m_path: Assets/Scenes/Stage2.unity
+  - m_enabled: 1
+    m_path: Assets/Scenes/Stage3.unity
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:
     m_Settings:

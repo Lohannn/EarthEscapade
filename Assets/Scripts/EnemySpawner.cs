@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour
 {
+    [SerializeField] private Canvas victoryPanel;
+
     [SerializeField] private bool enemyWave1Active = true;
     private bool enemyWave2Starting;
     [SerializeField] private bool enemyWave2Active;
@@ -211,6 +213,13 @@ public class EnemySpawner : MonoBehaviour
             yield return null;
         }
 
-        stageFinished = true;
+        OnWin();
+    }
+
+    private void OnWin()
+    {
+        PlayerDataManager.stage1Cleared = true;
+        victoryPanel.enabled = true;
+        Time.timeScale = 0.0f;
     }
 }

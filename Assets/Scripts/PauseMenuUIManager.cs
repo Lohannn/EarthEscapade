@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class PauseMenuUIDManager : MonoBehaviour
+public class PauseMenuUIManager : MonoBehaviour
 {
     public void ResumeStage()
     {
@@ -19,6 +19,7 @@ public class PauseMenuUIDManager : MonoBehaviour
     public void ReturnLobby()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("StarterScene");
+        GameObject.Find("MainMusicPlayer").GetComponent<AudioSource>().Play();
+        SceneManager.LoadScene("LobbyScene");
     }
 }

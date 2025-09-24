@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, IInvincible
 {
+    [SerializeField] private Canvas gameOverPanel;
+
     private readonly float baseSpeed = PlayerDataManager.speed;
     private float currentSpeed;
     private readonly int maxHealth = PlayerDataManager.maxHealth;
@@ -221,7 +223,8 @@ public class Player : MonoBehaviour, IInvincible
     private IEnumerator OnDeath()
     {
         yield return new WaitForSeconds(2);
-        SceneManager.LoadScene("StarterScene");
+        gameOverPanel.enabled = true;
+        Time.timeScale = 0.0f;
     }
 
     private void TurnOffBoosters()
