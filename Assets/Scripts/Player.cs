@@ -6,13 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, IInvincible
 {
+    [SerializeField] private GameObject explosionPrefab;
     [SerializeField] private Canvas gameOverPanel;
 
-    private readonly float baseSpeed = PlayerDataManager.speed;
+    private float baseSpeed = PlayerDataManager.speed;
     private float currentSpeed;
-    private readonly int maxHealth = PlayerDataManager.maxHealth;
+    private int maxHealth = PlayerDataManager.maxHealth;
     private int health;
-    private readonly int damage = PlayerDataManager.damage;
+    private int damage = PlayerDataManager.damage;
     [SerializeField] private float invincibilityTime;
     
 
@@ -66,7 +67,7 @@ public class Player : MonoBehaviour, IInvincible
     {
         if (health <= 0)
         {
-            sr.color = Color.black;
+            sr.enabled = false;
             StartCoroutine(OnDeath());
             return;
         }
@@ -99,7 +100,7 @@ public class Player : MonoBehaviour, IInvincible
 
     private void OnAttack()
     {
-        if (Input.GetButton("Fire1") && !onShootCooldown)
+        if ((Input.GetButton("Fire1") || Input.GetButton("Jump")) && !onShootCooldown)
         {
             if (onSpreadShot)
             {
@@ -222,6 +223,8 @@ public class Player : MonoBehaviour, IInvincible
 
     private IEnumerator OnDeath()
     {
+        GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        Destroy(explosion, 1.0f);
         yield return new WaitForSeconds(2);
         gameOverPanel.enabled = true;
         Time.timeScale = 0.0f;
@@ -253,19 +256,42 @@ public class Player : MonoBehaviour, IInvincible
         switch (collision.gameObject.tag)
         {
             case "EnemyTrigger":
-                EnemyBehaviour enemy = collision.gameObject.GetComponentInParent<EnemyBehaviour>();
+                
 
-                if (enemy != null)
+                if (collision.gameObject.GetComponentInParent<EnemyBehaviour>() != null)
                 {
-                    if (enemy.gameObject.CompareTag("EnemyHunter"))
+                    EnemyBehaviour enemy = collision.gameObject.GetComponentInParent<EnemyBehaviour>();
+
+                    if (enemy != null)
                     {
-                        if (!enemy.HasDeltDamage())
+                        if (enemy.gameObject.CompareTag("EnemyHunter"))
+                        {
+                            if (!enemy.HasDeltDamage())
+                            {
+                                OnGetHit(enemy.GetBodyDamage());
+                                enemy.SetHasDeltDamage(true);
+                            }
+                        }
+                        else
                         {
                             OnGetHit(enemy.GetBodyDamage());
-                            enemy.SetHasDeltDamage(true);
                         }
                     }
-                    else
+                }
+                else if (collision.gameObject.GetComponentInParent<BossEnemyBehaviour>() != null)
+                {
+                    BossEnemyBehaviour enemy = collision.gameObject.GetComponentInParent<BossEnemyBehaviour>();
+
+                    if (enemy != null)
+                    {
+                        OnGetHit(enemy.GetBodyDamage());
+                    }
+                }
+                else
+                {
+                    WingEnemyBehaviour enemy = collision.gameObject.GetComponentInParent<WingEnemyBehaviour>();
+
+                    if (enemy != null)
                     {
                         OnGetHit(enemy.GetBodyDamage());
                     }
@@ -308,5 +334,70 @@ public class Player : MonoBehaviour, IInvincible
                 collision.gameObject.SetActive(false);
                 break;
         }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void KonamiMode()
+    {
+        maxHealth = 9999;
+        health = maxHealth;
+        GetComponent<LifeBarController>().UpdateLifeBar();
+        currentSpeed = baseSpeed * 2;
+        currentReloadTime = baseReloadTime / 2;
+        onSpreadShot = true;
+        damage = 100;
     }
 }

@@ -23,6 +23,11 @@ TagManager:
   - DropManager
   - PowerUp
   - SceneManager
+  - ValueDisplay
+  - ShopItem
+  - EnemyBoss
+  - LeftBossWing
+  - RightBossWing
   layers:
   - Default
   - TransparentFX
@@ -39,7 +44,7 @@ TagManager:
   - EnemyTrigger
   - PowerUp
   - Shield
-  - 
+  - BossEnemy
   - 
   - 
   - 

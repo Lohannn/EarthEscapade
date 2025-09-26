@@ -12,20 +12,17 @@ public class PowerUp : MonoBehaviour
 
     private float speed;
 
-    private PowerUpManager powerUpManager;
-
     private void Start()
     {
-        powerUpManager = GameObject.Find("PowerUpEditor").GetComponent<PowerUpManager>();
 
-        healValue = powerUpManager.healValue;
-        boostSpeedMultiplier = powerUpManager.boostSpeedMultiplier;
-        boostReloadDivider = powerUpManager.boostReloadDivider;
-        boostDurationTime = powerUpManager.boostDurationTime;
-        spreadDurationTime = powerUpManager.spreadDurationTime;
-        shieldHealth = powerUpManager.shieldValue;
-        shieldDurationTime = powerUpManager.shieldDurationTime;
-        speed = powerUpManager.powerUpSpeed;
+        healValue = PowerUpManager.healValue;
+        boostSpeedMultiplier = PowerUpManager.boostSpeedMultiplier;
+        boostReloadDivider = PowerUpManager.boostReloadDivider;
+        boostDurationTime = PowerUpManager.boostDurationTime;
+        spreadDurationTime = PowerUpManager.spreadDurationTime;
+        shieldHealth = PowerUpManager.shieldValue;
+        shieldDurationTime = PowerUpManager.shieldDurationTime;
+        speed = PowerUpManager.powerUpSpeed;
     }
 
     private void Update()

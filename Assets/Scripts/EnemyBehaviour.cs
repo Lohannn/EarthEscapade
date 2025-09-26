@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
@@ -9,14 +10,26 @@ public class EnemyBehaviour : MonoBehaviour
     private bool hasDeltDamage = false;
     private bool canDropPowerUp = false;
     private bool isTutorialEnemy = false;
+    private bool isBlinking = false;
+
 
     private DropManager dropManager;
     private PowerUpPoolManager powerUpPool;
+    private SpriteRenderer sr;
 
     private void Start()
     {
         dropManager = GameObject.FindGameObjectWithTag("DropManager").GetComponent<DropManager>();
         powerUpPool = GameObject.FindGameObjectWithTag("PowerUpPool").GetComponent<PowerUpPoolManager>();
+        sr = GetComponent<SpriteRenderer>();
+    }
+
+    private void OnEnable()
+    {
+        if (sr != null)
+        {
+            sr.color = Color.white;
+        }
     }
 
     void Update()
@@ -45,11 +58,34 @@ public class EnemyBehaviour : MonoBehaviour
             PlayerDataManager.coins += 1;
             Deactivate();
         }
+        else
+        {
+            if (!isBlinking)
+            {
+                StartCoroutine(Blink(1.0f));
+            }
+        }
+    }
+
+    private IEnumerator Blink(float time)
+    {
+        isBlinking = true;
+        float elapsedTime = 0f;
+        while (elapsedTime < time)
+        {
+            sr.color = Color.darkGray;
+            yield return new WaitForSeconds(0.1f);
+            sr.color = Color.white;
+            yield return new WaitForSeconds(0.1f);
+            elapsedTime += 0.2f;
+        }
+        sr.color = Color.white;
+        isBlinking = false;
     }
 
     private void DropPowerUp()
     {
-        if (Random.Range(0, 100) > 75)
+        if (Random.Range(1, 101) > 75)
         {
             dropManager.DropRandomPowerUp(transform.position);
         }

@@ -15,6 +15,8 @@ public class RangedEnemy : MonoBehaviour
     [SerializeField] private Transform weapon;
     [SerializeField] private float reloadTime;
 
+    private bool willMove;
+
     private bool isAttacking = false;
     private bool canChangeDirection = true;
     private bool canDropPowerUp = false;
@@ -42,7 +44,7 @@ public class RangedEnemy : MonoBehaviour
         eb.SetCanDropPowerUp(canDropPowerUp);
     }
 
-    public void Initialize(float targetHeight = 4, int speedDirection = 1, bool canDropPowerUp = false)
+    public void Initialize(float targetHeight = 4, int speedDirection = 1, bool canDropPowerUp = false, bool movePermission = true)
     {
         col.enabled = false;
         trig.enabled = false;
@@ -53,6 +55,7 @@ public class RangedEnemy : MonoBehaviour
         this.targetHeight = targetHeight;
         currentSpeed *= speedDirection;
         this.canDropPowerUp = canDropPowerUp; 
+        willMove = movePermission;
     }
 
     // Update is called once per frame
@@ -83,7 +86,10 @@ public class RangedEnemy : MonoBehaviour
 
             }
 
-            OnMove();
+            if (willMove)
+            {
+                OnMove();
+            }
         }
     }
 

@@ -951,7 +951,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Lojas
+  m_Text: Loja
 --- !u!222 &1117656918
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1276,7 +1276,7 @@ GameObject:
   - component: {fileID: 1878238597}
   - component: {fileID: 1878238600}
   m_Layer: 5
-  m_Name: shopsButton
+  m_Name: shopButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1408,7 +1408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48ff5cd9f48361d4da77bf23676ca51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: ShopListScene
+  sceneName: ShopScene
 --- !u!1 &1949046346
 GameObject:
   m_ObjectHideFlags: 0

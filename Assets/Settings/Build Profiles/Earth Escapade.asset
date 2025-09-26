@@ -21,21 +21,19 @@ MonoBehaviour:
   m_OverrideGlobalSceneList: 1
   m_Scenes:
   - m_enabled: 1
-    m_path: Assets/Scenes/Stage1.unity
-  - m_enabled: 1
     m_path: Assets/Scenes/StarterScene.unity
   - m_enabled: 1
     m_path: Assets/Scenes/Configurations.unity
   - m_enabled: 1
     m_path: Assets/Scenes/LobbyScene.unity
   - m_enabled: 1
+    m_path: Assets/Scenes/ShopScene.unity
+  - m_enabled: 1
     m_path: Assets/Scenes/ShipStatusScene.unity
   - m_enabled: 1
-    m_path: Assets/Scenes/ShopListScene.unity
-  - m_enabled: 1
-    m_path: Assets/Scenes/Stage1ShopScene.unity
-  - m_enabled: 1
     m_path: Assets/Scenes/StageSelectionScene.unity
+  - m_enabled: 1
+    m_path: Assets/Scenes/Stage1.unity
   - m_enabled: 1
     m_path: Assets/Scenes/Stage2.unity
   - m_enabled: 1
@@ -85,8 +83,8 @@ MonoBehaviour:
     - line: '|   m_SplashScreenLogos: []'
     - line: '|   m_VirtualRealitySplashScreen: {instanceID: 0}'
     - line: '|   m_HolographicTrackingLossScreen: {instanceID: 0}'
-    - line: '|   defaultScreenWidth: 1280'
-    - line: '|   defaultScreenHeight: 720'
+    - line: '|   defaultScreenWidth: 1920'
+    - line: '|   defaultScreenHeight: 1080'
     - line: '|   defaultScreenWidthWeb: 960'
     - line: '|   defaultScreenHeightWeb: 600'
     - line: '|   m_StereoRenderingPath: 0'
@@ -149,7 +147,7 @@ MonoBehaviour:
     - line: '|   xboxEnableFitness: 0'
     - line: '|   visibleInBackground: 1'
     - line: '|   allowFullscreenSwitch: 1'
-    - line: '|   fullscreenMode: 3'
+    - line: '|   fullscreenMode: 1'
     - line: '|   xboxSpeechDB: 0'
     - line: '|   xboxEnableHeadOrientation: 0'
     - line: '|   xboxEnableGuest: 0'
@@ -183,7 +181,7 @@ MonoBehaviour:
     - line: '|   loadStoreDebugModeEnabled: 0'
     - line: '|   visionOSBundleVersion: 1.0'
     - line: '|   tvOSBundleVersion: 1.0'
-    - line: '|   bundleVersion: 1.0'
+    - line: '|   bundleVersion: 1.1'
     - line: '|   preloadedAssets:'
     - line: '|   - {fileID: -944628639613478452, guid: 3590b91b4603b465dbb4216d601bff33,
         type: 3}'

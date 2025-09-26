@@ -7,11 +7,24 @@ public class Shield : MonoBehaviour
     private int health;
     private float durationTime;
     private bool haveDuration = false;
+    private bool isBlinking = false;
 
     private IInvincible parentInvincibility;
 
+    private SpriteRenderer sr;
+
+    private void Start()
+    {
+        sr = GetComponent<SpriteRenderer>();
+    }
+
     private void OnEnable()
     {
+        if (sr != null)
+        {
+            sr.enabled = true;
+        }
+
         health = maxHealth;
         parentInvincibility = GetComponentInParent<IInvincible>();
         StartCoroutine(ShieldDuration());
@@ -56,11 +69,30 @@ public class Shield : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
-
         if (health <= 0)
         {
             DisableShield();
         }
+        else
+        {
+            if (!isBlinking)
+            {
+                StartCoroutine(Blink(0.5f));
+            }
+        }
+    }
+    private IEnumerator Blink(float time)
+    {
+        isBlinking = true;
+        float elapsedTime = 0f;
+        while (elapsedTime < time)
+        {
+            sr.enabled = !sr.enabled;
+            yield return new WaitForSeconds(0.05f);
+            elapsedTime += 0.05f;
+        }
+        sr.enabled = true;
+        isBlinking = false;
     }
 
     private IEnumerator ShieldDuration()

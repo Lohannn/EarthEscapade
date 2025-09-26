@@ -9,7 +9,7 @@ public class SoundEffectsVolumeController : MonoBehaviour
     {
         if (sliderSFX != null)
         {
-            sliderSFX.value = GameManager.musicVolume;
+            sliderSFX.value = GameManager.sfxVolume;
             sliderSFX.onValueChanged.AddListener(AdjustVolume);
         }
     }

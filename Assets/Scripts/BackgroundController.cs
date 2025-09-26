@@ -32,7 +32,7 @@ public class BackgroundController : MonoBehaviour
             if (background.transform.position.y < -backgroundHeight)
             {
                 float newYPosition = background.transform.position.y + (backgroundHeight * backgrounds.Length);
-                background.transform.position = new Vector3(background.transform.position.x, newYPosition, background.transform.position.z);
+                background.transform.position = new Vector3(background.transform.position.x, newYPosition - 0.1f, background.transform.position.z);
             }
         }
     }

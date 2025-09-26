@@ -119,58 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &156303140
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 156303142}
-  - component: {fileID: 156303141}
-  m_Layer: 13
-  m_Name: PowerUpEditor
-  m_TagString: Untagged
-  m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &156303141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 156303140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d14bf4154d8f2b94a9a550ac36caa48b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healValue: 2
-  boostSpeedMultiplier: 2
-  boostReloadDivider: 0.2
-  boostDurationTime: 10
-  spreadDurationTime: 10
-  shieldValue: 10
-  shieldDurationTime: 0
-  powerUpSpeed: 1
---- !u!4 &156303142
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 156303140}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.5, y: -5.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &167875790
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,7 +524,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 305915053}
-  - component: {fileID: 305915052}
+  - component: {fileID: 305915054}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: EnemySpawner
@@ -584,22 +532,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &305915052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 305915051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 217e41151da3c8842b1ca597a55210d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  victoryPanel: {fileID: 351293920}
-  enemyWave1Active: 1
-  enemyWave2Active: 0
-  enemyWave3Active: 0
 --- !u!4 &305915053
 Transform:
   m_ObjectHideFlags: 0
@@ -615,6 +547,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &305915054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305915051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c5598a31dbf3a042b9f892a8f228470, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossEnemyPrefab: {fileID: 7412737517329756360, guid: c57b25bfcc4c6044aa83636dbd69c5c2, type: 3}
+  victoryPanel: {fileID: 351293920}
+  enemyWave1Active: 1
+  enemyWave2Active: 0
+  enemyWave3Active: 0
+  enemyWave4Active: 0
 --- !u!1 &351293916
 GameObject:
   m_ObjectHideFlags: 0
@@ -809,7 +759,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerLaser: {fileID: 8668534872254310713, guid: 2f383f87f1f88254294e6e56a4808c03, type: 3}
+  canSpawnPlayerLaser: 1
   enemyLaser: {fileID: 1164946974454051439, guid: 49c951570c1699a44b8401c76b6f5fa4, type: 3}
+  canSpawnEnemyLaser: 1
+  advancedEnemyLaser: {fileID: 7293637754871739306, guid: c3b8e4a597fff1f4896f815cb21c2ffb, type: 3}
+  canSpawnAdvancedEnemyLaser: 1
+  bossEnemyLaser: {fileID: 5655879151032736650, guid: 11643d905e5187345b9e4d596d2851e0, type: 3}
+  canSpawnBossEnemyLaser: 1
 --- !u!4 &429203506
 Transform:
   m_ObjectHideFlags: 0
@@ -1251,7 +1207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.69803923}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1532,8 +1488,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccb3f77a617e8934e996a694132fbf3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canSpawnHunters: 1
+  canSpawnStalkerHunters: 1
+  canSpawnRangeds: 1
+  canSpawnShieldRangeds: 1
   hunterEnemy: {fileID: 4290423553607363559, guid: e05169aa3f9c374449f9d2cee9777b78, type: 3}
+  stalkerHunterEnemy: {fileID: 8121066776334676966, guid: d44f989af77727f47ab9e3e57de4a409, type: 3}
   rangedEnemy: {fileID: 1525533441012883451, guid: a7bf99d8398a7fb47906c5e1dde3183b, type: 3}
+  shieldRangedEnemy: {fileID: 1015763881289368945, guid: 186c8483ff9ccc3409f9f7fd6a46ca07, type: 3}
 --- !u!4 &750298902
 Transform:
   m_ObjectHideFlags: 0
@@ -2635,7 +2597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.69803923}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4117,6 +4079,7 @@ GameObject:
   - component: {fileID: 2006848871}
   - component: {fileID: 2006848870}
   - component: {fileID: 2006848869}
+  - component: {fileID: 2006848877}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -4408,6 +4371,18 @@ Transform:
   - {fileID: 1397317444}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2006848877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2006848868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff48d8bc55834846a296de3c8bffef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2049010035
 GameObject:
   m_ObjectHideFlags: 0
@@ -4633,7 +4608,6 @@ SceneRoots:
   - {fileID: 305915053}
   - {fileID: 1953579294}
   - {fileID: 429203506}
-  - {fileID: 156303142}
   - {fileID: 351293921}
   - {fileID: 224048246}
   - {fileID: 1839828479}

@@ -1,14 +1,12 @@
-using UnityEngine;
-
-public class PowerUpManager : MonoBehaviour
+public class PowerUpManager
 {
-    public int healValue;
-    public float boostSpeedMultiplier;
-    public float boostReloadDivider;
-    public float boostDurationTime;
-    public float spreadDurationTime;
-    public int shieldValue;
-    public float shieldDurationTime;
+    public static int healValue = 5;
+    public static float boostSpeedMultiplier = 1.5f;
+    public static float boostReloadDivider = 0.5f;
+    public static float boostDurationTime = 10.0f;
+    public static float spreadDurationTime = 10.0f;
+    public static int shieldValue = 10;
+    public static float shieldDurationTime = 0.0f;
 
-    public float powerUpSpeed;
+    public static float powerUpSpeed = 1.0f;
 }
