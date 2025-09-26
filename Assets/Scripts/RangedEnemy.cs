@@ -23,7 +23,7 @@ public class RangedEnemy : MonoBehaviour
 
     private Collider2D col;
     private Collider2D trig;
-    private AudioSource aSource;
+    private EnemySoundEffects ese;
     private EnemyBehaviour eb;
     private Rigidbody2D rb;
     private LaserPoolManager laserPool;
@@ -34,7 +34,7 @@ public class RangedEnemy : MonoBehaviour
         col = gameObject.GetComponent<Collider2D>();
         trig = gameObject.transform.Find("RangedTrigger").GetComponent<Collider2D>();
         rb = gameObject.GetComponent<Rigidbody2D>();
-        aSource = GetComponent<AudioSource>();
+        ese = GetComponent<EnemySoundEffects>();
         eb = gameObject.GetComponent<EnemyBehaviour>();
         laserPool = GameObject.FindGameObjectWithTag("LaserPool").GetComponent<LaserPoolManager>();
 
@@ -127,9 +127,8 @@ public class RangedEnemy : MonoBehaviour
 
     private IEnumerator AttackCoroutine(float reload)
     {
+        ese.PlaySoundEffect(ese.SHOOT);
         laserPool.GetEnemyLaser(damage, weapon.position, quaternion.identity);
-        //aSource.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
-        aSource.Play();
 
         yield return new WaitForSeconds(reload);
         StartCoroutine(AttackCoroutine(reload));

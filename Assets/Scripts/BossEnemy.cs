@@ -24,6 +24,7 @@ public class BossEnemy : MonoBehaviour
     [SerializeField] private Collider2D trig;
     private BossEnemyBehaviour eb;
     private Rigidbody2D rb;
+    private EnemySoundEffects ese;
     private LaserPoolManager laserPool;
 
 
@@ -32,6 +33,7 @@ public class BossEnemy : MonoBehaviour
         col = gameObject.GetComponent<Collider2D>();
         eb = gameObject.GetComponent<BossEnemyBehaviour>();
         rb = gameObject.GetComponent<Rigidbody2D>();
+        ese = gameObject.GetComponent<EnemySoundEffects>();
         laserPool = GameObject.FindGameObjectWithTag("LaserPool").GetComponent<LaserPoolManager>();
 
         eb.SetMaxHealth(maxHealth);
@@ -93,6 +95,7 @@ public class BossEnemy : MonoBehaviour
         if (isAttacking)
         {
             yield return new WaitForSeconds(reload);
+            ese.PlaySoundEffect(ese.SHOOT);
             laserPool.GetBossEnemyLaser(damage, weapon.position, quaternion.identity);
             StartCoroutine(AttackCoroutine(reload));
         }

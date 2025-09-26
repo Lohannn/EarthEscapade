@@ -31,11 +31,12 @@ public class Player : MonoBehaviour, IInvincible
     private bool onShootCooldown;
     private bool onSpreadShot;
     private bool isInvincible;
+    private bool isDead;
 
     private Coroutine currentPowerUpCoroutine;
 
     private SpriteRenderer sr;
-    private AudioSource aSource;
+    private PlayerSoundEffects pse;
     private LaserPoolManager laserPool;
     private ShieldPoolManager shieldPool;
     private Collider2D playerTriggerCol;
@@ -43,7 +44,7 @@ public class Player : MonoBehaviour, IInvincible
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
-        aSource = GetComponent<AudioSource>();
+        pse = GetComponent<PlayerSoundEffects>();
         GameObject playerTrigger = GameObject.FindWithTag("PlayerTrigger");
         playerTriggerCol = playerTrigger.GetComponent<Collider2D>();
 
@@ -65,17 +66,17 @@ public class Player : MonoBehaviour, IInvincible
 
     void Update()
     {
-        if (health <= 0)
+        if (health <= 0 && !isDead)
         {
+            StopCoroutine(nameof(Blink));
+            playerTriggerCol.enabled = false;
             sr.enabled = false;
+            isDead = true;
             StartCoroutine(OnDeath());
             return;
         }
 
         PlayerInputs();
-        
-        aSource.volume = GameManager.sfxVolume;
-        
     }
 
     private void LateUpdate()
@@ -113,8 +114,7 @@ public class Player : MonoBehaviour, IInvincible
                 laserPool.GetPlayerLaser(damage, weapon.position, Quaternion.identity);
             }
 
-            aSource.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
-            aSource.Play();
+            pse.PlaySoundEffect(pse.SHOOT);
             StartCoroutine(ShootCooldown(currentReloadTime));
         }
     }
@@ -139,12 +139,18 @@ public class Player : MonoBehaviour, IInvincible
 
     public void OnDamage(int damage)
     {
-        if (!isInvincible)
-        {
-            health -= damage;
-            GetComponent<LifeBarController>().UpdateLifeBar();
-            StartCoroutine(Blink(invincibilityTime));
-        }
+            if (!isInvincible)
+            {
+                pse.PlaySoundEffect(pse.HURT);
+
+                if (health - damage > 0)
+                {
+                    StartCoroutine(Blink(invincibilityTime));
+                }
+
+                health -= damage;
+                GetComponent<LifeBarController>().UpdateLifeBar();
+            }
     }
 
     private IEnumerator Blink(float time)
@@ -166,6 +172,7 @@ public class Player : MonoBehaviour, IInvincible
     public void OnHeal(int healValue)
     {
         health += healValue;
+        pse.PlaySoundEffect(pse.UPGRADE);
         GetComponent<LifeBarController>().UpdateLifeBar();
         if (health > maxHealth)
         {
@@ -203,6 +210,7 @@ public class Player : MonoBehaviour, IInvincible
 
     private IEnumerator SpreadShotMode(float durationTime)
     {
+        pse.PlaySoundEffect(pse.UPGRADE);
         onSpreadShot = true;
         yield return new WaitForSeconds(durationTime);
         onSpreadShot = false;
@@ -212,6 +220,7 @@ public class Player : MonoBehaviour, IInvincible
 
     private IEnumerator BoostMode(float durationTime, float speedMultiplier, float reloadDivider)
     {
+        pse.PlaySoundEffect(pse.UPGRADE);
         currentSpeed = baseSpeed * speedMultiplier;
         currentReloadTime = baseReloadTime * reloadDivider;
         yield return new WaitForSeconds(durationTime);
@@ -224,6 +233,7 @@ public class Player : MonoBehaviour, IInvincible
     private IEnumerator OnDeath()
     {
         GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        pse.PlaySoundEffect(pse.DEATH);
         Destroy(explosion, 1.0f);
         yield return new WaitForSeconds(2);
         gameOverPanel.enabled = true;
@@ -256,7 +266,6 @@ public class Player : MonoBehaviour, IInvincible
         switch (collision.gameObject.tag)
         {
             case "EnemyTrigger":
-                
 
                 if (collision.gameObject.GetComponentInParent<EnemyBehaviour>() != null)
                 {
@@ -325,10 +334,12 @@ public class Player : MonoBehaviour, IInvincible
                     int shieldHealth = collision.gameObject.GetComponent<PowerUp>().GetShieldHealth();
                     float shieldDurationTime = collision.gameObject.GetComponent<PowerUp>().GetShieldDurationTime();
                     GameObject pickedShield = shieldPool.GetShield(shieldHealth, shieldDurationTime, transform);
+                    pse.PlaySoundEffect(pse.SHIELDUP);
                     pickedShield.GetComponent<Shield>().ActivateShield();
                 }
                 else
                 {
+                    pse.PlaySoundEffect(pse.UPGRADE);
                     GetComponentInChildren<Shield>().FixShield();
                 }
                 collision.gameObject.SetActive(false);

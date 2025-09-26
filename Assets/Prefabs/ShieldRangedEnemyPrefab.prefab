@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -8728649936238286825}
   - component: {fileID: 6957220739074303317}
   - component: {fileID: 551695081566220202}
+  - component: {fileID: 416539283959826467}
   m_Layer: 9
   m_Name: ShieldRangedEnemyPrefab
   m_TagString: EnemyRanged
@@ -170,7 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  maxHealth: 5
+  maxHealth: 10
   bodyDamage: 3
   damage: 2
   targetHeight: 0
@@ -200,7 +201,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -285,6 +286,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &416539283959826467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015763881289368945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05055831f8f3b594298eb4a8bed4c91f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: ad7db14ba73af8841ab1b238f8eee9be, type: 3}
+  - {fileID: 8300000, guid: 7f9d8928ddabf7647b4498506d346b47, type: 3}
+  - {fileID: 8300000, guid: 4ed37258eb898274d91d80ff9b3807b6, type: 3}
 --- !u!1 &8275465570009331573
 GameObject:
   m_ObjectHideFlags: 0

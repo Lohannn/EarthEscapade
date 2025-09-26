@@ -20,9 +20,22 @@ public class EnemySpawnerStage3 : MonoBehaviour
 
     private EnemyPoolManager enemyPool;
 
+    private void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
     private void Start()
     {
         enemyPool = GameObject.FindGameObjectWithTag("EnemyPool").GetComponent<EnemyPoolManager>();
+        LockCursor();
     }
 
     private void Update()
@@ -64,7 +77,7 @@ public class EnemySpawnerStage3 : MonoBehaviour
             }
         }
 
-        enemyWave3Starting = true;
+        enemyWave2Starting = true;
     }
 
     private IEnumerator SpawnStalkerHunterEnemiesWave3(float spawnInterval)
@@ -220,6 +233,7 @@ public class EnemySpawnerStage3 : MonoBehaviour
         yield return new WaitForSeconds(3.0f);
         PlayerDataManager.stage1Cleared = true;
         victoryPanel.enabled = true;
+        UnlockCursor();
         Time.timeScale = 0.0f;
     }
 }

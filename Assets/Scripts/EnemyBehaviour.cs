@@ -16,12 +16,14 @@ public class EnemyBehaviour : MonoBehaviour
     private DropManager dropManager;
     private PowerUpPoolManager powerUpPool;
     private SpriteRenderer sr;
+    private EnemySoundEffects ese;
 
     private void Start()
     {
         dropManager = GameObject.FindGameObjectWithTag("DropManager").GetComponent<DropManager>();
         powerUpPool = GameObject.FindGameObjectWithTag("PowerUpPool").GetComponent<PowerUpPoolManager>();
         sr = GetComponent<SpriteRenderer>();
+        ese = GetComponent<EnemySoundEffects>();
     }
 
     private void OnEnable()
@@ -46,6 +48,8 @@ public class EnemyBehaviour : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
+            ese.PlaySoundEffect(ese.DEATH);
+
             if (canDropPowerUp && isTutorialEnemy)
             {
                 powerUpPool.GetPowerUp("SHIELD", transform.position);
@@ -60,6 +64,7 @@ public class EnemyBehaviour : MonoBehaviour
         }
         else
         {
+            ese.PlaySoundEffect(ese.HURT);
             if (!isBlinking)
             {
                 StartCoroutine(Blink(1.0f));
@@ -85,7 +90,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void DropPowerUp()
     {
-        if (Random.Range(1, 101) > 75)
+        if (Random.Range(0, 101) < 25)
         {
             dropManager.DropRandomPowerUp(transform.position);
         }

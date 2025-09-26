@@ -24,10 +24,12 @@ public class BossEnemyBehaviour : MonoBehaviour
     private bool isBlinking = false;
 
     private SpriteRenderer sr;
+    private EnemySoundEffects ese;
 
     private void Start()
     {
         sr = GetComponent<SpriteRenderer>();
+        ese = GetComponent<EnemySoundEffects>();
     }
 
     void Update()
@@ -49,6 +51,7 @@ public class BossEnemyBehaviour : MonoBehaviour
         }
         else
         {
+            ese.PlaySoundEffect(ese.HURT);
             if (!isBlinking)
             {
                 StartCoroutine(Blink(1.0f));
@@ -138,6 +141,7 @@ public class BossEnemyBehaviour : MonoBehaviour
                 gameObject.transform
             );
             explosion.transform.localPosition = explosionPositions[explosionCount];
+            ese.PlaySoundEffect(ese.HURT);
             Destroy(explosion, 0.3f);
             yield return new WaitForSeconds(0.5f);
             elapsedTime += 0.5f;
@@ -148,11 +152,13 @@ public class BossEnemyBehaviour : MonoBehaviour
                 explosionCount = 0;
             }
         }
+        PlayerDataManager.coins += 15;
         Deactivate();
     }
 
     private void Deactivate()
     {
+        ese.PlaySoundEffect(ese.DEATH);
         gameObject.SetActive(false);
     }
 }

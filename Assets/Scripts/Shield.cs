@@ -12,10 +12,12 @@ public class Shield : MonoBehaviour
     private IInvincible parentInvincibility;
 
     private SpriteRenderer sr;
+    private ShieldSoundEffects sse;
 
     private void Start()
     {
         sr = GetComponent<SpriteRenderer>();
+        sse = GetComponent<ShieldSoundEffects>();
     }
 
     private void OnEnable()
@@ -37,7 +39,11 @@ public class Shield : MonoBehaviour
 
     public void FixShield()
     {
-        health = maxHealth;
+        health += 5;
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
     }
 
     public void SetDuration(float time)
@@ -71,10 +77,12 @@ public class Shield : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
+            sse.PlaySoundEffect(sse.SHIELDDOWN);
             DisableShield();
         }
         else
         {
+            sse.PlaySoundEffect(sse.HIT);
             if (!isBlinking)
             {
                 StartCoroutine(Blink(0.5f));

@@ -21,6 +21,7 @@ public class WingEnemy : MonoBehaviour
     private Collider2D col;
     [SerializeField] private Collider2D trig;
     private WingEnemyBehaviour eb;
+    private EnemySoundEffects ese;
     private LaserPoolManager laserPool;
     private EnemyPoolManager enemyPool;
 
@@ -29,6 +30,7 @@ public class WingEnemy : MonoBehaviour
     {
         col = gameObject.GetComponent<Collider2D>();
         eb = gameObject.GetComponent<WingEnemyBehaviour>();
+        ese = gameObject.GetComponent<EnemySoundEffects>();
         laserPool = GameObject.FindGameObjectWithTag("LaserPool").GetComponent<LaserPoolManager>();
         enemyPool = GameObject.FindGameObjectWithTag("EnemyPool").GetComponent<EnemyPoolManager>();
 
@@ -42,6 +44,7 @@ public class WingEnemy : MonoBehaviour
         if (!isAttacking) yield break;
 
         yield return new WaitForSeconds(reload);
+        ese.PlaySoundEffect(ese.SHOOT);
         laserPool.GetEnemyLaser(damage, weapon.position, quaternion.identity);
         StartCoroutine(WeaponCoroutine(reload));
     }
@@ -51,6 +54,7 @@ public class WingEnemy : MonoBehaviour
         if (!isAttacking) yield break;
 
         yield return new WaitForSeconds(reload);
+        ese.PlaySoundEffect(ese.SHOOT);
         laserPool.GetAdvancedEnemyLaser(damage, externalWeapon.position, quaternion.identity);
         StartCoroutine(ExternalWeaponCoroutine(reload));
     }

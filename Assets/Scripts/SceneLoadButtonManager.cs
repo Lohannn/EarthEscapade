@@ -7,6 +7,7 @@ public class SceneLoadButtonManager : MonoBehaviour
 
     public void OpenScene()
     {
+        UISoundEffects.Instance.ButtonClick();
         if (sceneName == "Configurations")
         {
             SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);

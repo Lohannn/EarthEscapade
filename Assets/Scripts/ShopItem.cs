@@ -25,6 +25,10 @@ public class ShopItem : MonoBehaviour
     {
         if (PlayerDataManager.coins >= value)
         {
+            if (UISoundEffects.Instance != null)
+            {
+                UISoundEffects.Instance.BuyItem();
+            }
             PlayerDataManager.coins -= value;
 
             switch (upgradeType) {

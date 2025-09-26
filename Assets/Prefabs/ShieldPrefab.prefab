@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9050476975831622564}
   - component: {fileID: 5444222228708100766}
   - component: {fileID: 523011090970431007}
+  - component: {fileID: -4585270993594858604}
   m_Layer: 0
   m_Name: ShieldPrefab
   m_TagString: Shield
@@ -137,3 +138,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3f635575e0da54dba0c0afd6536a7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4585270993594858604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5037029364455855015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4bf01336a4dcd74bb36cff9f2cbacb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 840f51e770893c34c9d9f7d39a14de43, type: 3}
+  - {fileID: 8300000, guid: 7d101dc53aacf904e9e704303d9ff31b, type: 3}

@@ -31,10 +31,12 @@ public class WingEnemyBehaviour : MonoBehaviour
     private bool isBlinking = false;
 
     private SpriteRenderer sr;
+    private EnemySoundEffects ese;
 
     private void Start()
     {
         sr = GetComponent<SpriteRenderer>();
+        ese = GetComponent<EnemySoundEffects>();
 
         if (gameObject.name == "leftWing")
         {
@@ -72,6 +74,7 @@ public class WingEnemyBehaviour : MonoBehaviour
         }
         else
         {
+            ese.PlaySoundEffect(ese.HURT);
             if (!isBlinking)
             {
                 StartCoroutine(Blink(1.0f));
@@ -143,6 +146,7 @@ public class WingEnemyBehaviour : MonoBehaviour
                 gameObject.transform
             );
             explosion.transform.localPosition = explosionsPositions[explosionCount];
+            ese.PlaySoundEffect(ese.HURT);
             Destroy(explosion, 0.3f);
             yield return new WaitForSeconds(0.5f);
             elapsedTime += 0.5f;
@@ -163,6 +167,8 @@ public class WingEnemyBehaviour : MonoBehaviour
             parentBoss.GetComponent<BossEnemyBehaviour>().DropHealth();
             parentBoss.GetComponent<BossEnemy>().StartAttack();
         }
+
+        ese.PlaySoundEffect(ese.DEATH);
         gameObject.SetActive(false);
     }
 }

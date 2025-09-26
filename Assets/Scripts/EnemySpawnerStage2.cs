@@ -19,9 +19,22 @@ public class EnemySpawnerStage2 : MonoBehaviour
 
     private EnemyPoolManager enemyPool;
 
+    private void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
     private void Start()
     {
         enemyPool = GameObject.FindGameObjectWithTag("EnemyPool").GetComponent<EnemyPoolManager>();
+        LockCursor();
     }
 
     private void Update()
@@ -248,6 +261,7 @@ public class EnemySpawnerStage2 : MonoBehaviour
         yield return new WaitForSeconds(3.0f);
         PlayerDataManager.stage1Cleared = true;
         victoryPanel.enabled = true;
+        UnlockCursor();
         Time.timeScale = 0.0f;
     }
 }

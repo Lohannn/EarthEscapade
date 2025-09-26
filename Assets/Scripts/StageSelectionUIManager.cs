@@ -9,11 +9,13 @@ public class StageSelectionUIManager : MonoBehaviour
 
     public void Stage1()
     {
+        UISoundEffects.Instance.ButtonClick();
         SceneManager.LoadScene("Stage1");
     }
 
     public void Stage2()
     {
+        UISoundEffects.Instance.ButtonClick();
         if (PlayerDataManager.stage1Cleared)
         {
             SceneManager.LoadScene("Stage2");
@@ -27,6 +29,7 @@ public class StageSelectionUIManager : MonoBehaviour
 
     public void Stage3()
     {
+        UISoundEffects.Instance.ButtonClick();
         if (PlayerDataManager.stage2Cleared)
         {
             SceneManager.LoadScene("Stage3");
